@@ -144,6 +144,19 @@ module "ec2_instance" {
   }
   user_data = base64encode(var.user_data_sh)
 }
+
+output "IP_1" {
+
+  value = module.ec2_instance["instance_1"].public_ip
+
+}
+
+output "IP_2" {
+
+  value = module.ec2_instance["instance_2"].public_ip
+}
+
+
 module "rds" {
   source                 = "terraform-aws-modules/rds/aws"
   version                = "6.5.5"
