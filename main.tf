@@ -144,12 +144,6 @@ module "ec2_instance" {
   }
   user_data = base64encode(var.user_data_sh)
 }
-
-output "IP" {
-  # for_each = local.instances
-  value = module.ec2_instance.id
-  }
-
 module "rds" {
   source                 = "terraform-aws-modules/rds/aws"
   version                = "6.5.5"
