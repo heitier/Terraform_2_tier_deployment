@@ -147,7 +147,7 @@ module "ec2_instance" {
 
 output "IP" {
   # for_each = local.instances
-  value = module.ec2_instance.arn
+  value = module.ec2_instance.id
   }
 
 module "rds" {
