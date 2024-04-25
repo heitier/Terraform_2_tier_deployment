@@ -39,10 +39,10 @@ Preview and apply the configuration:
 terraform plan
 terraform apply
 ```
-## Access WordPress
+### Access WordPress
 After the infrastructure is provisioned, access your WordPress site by navigating to the public IP address of the EC2 instance.
 
-## Customization
+### Customization
 You can customize the configurations by modifying the Terraform variables in the variables.tf file to suit your specific requirements, such as changing the instance types, adjusting the database size, or configuring additional AWS services.
 
 ## Security Considerations
