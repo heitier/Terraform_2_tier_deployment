@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# Terraform_2_tier_deployment
+
 Deploying A Highly Available 2-Tier Architecture With Terraform
 =======
 WordPress on AWS with Terraform
@@ -18,4 +17,3 @@ AWS Account
 Terraform installed
 An existing VPC with at least one public and one private subnet (modify configurations accordingly if using default VPC)
 Key Pair for EC2 instance access
->>>>>>> master
