@@ -1,5 +1,4 @@
-
-Deploying A Highly Available 2-Tier Architecture With Terraform
+# Deploying A Highly Available 2-Tier Architecture With Terraform
 =======
 WordPress on AWS with Terraform
 This repository contains Terraform configurations to deploy a WordPress website on an AWS EC2 instance that connects to a MySQL database hosted on AWS RDS. This setup is designed to provide a scalable, secure, and efficient environment for running a WordPress site on AWS infrastructure.
