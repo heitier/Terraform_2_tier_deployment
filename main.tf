@@ -145,7 +145,7 @@ module "ec2_instance" {
   user_data = base64encode(var.user_data_sh)
 }
 
-output "IP-instance" {
+output "IP" {
   # for_each = local.instances
   value = module.ec2_instance.arn
   }
