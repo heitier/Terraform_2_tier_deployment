@@ -4,3 +4,4 @@
 crash.log
 *.hcl
 terraform.tf
+*.pem

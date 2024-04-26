@@ -45,6 +45,14 @@ module "security-group" {
       description = "Allow http"
       cidr_blocks = "0.0.0.0/0"
     }
+    ,
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      description = "Allow ssh"
+      cidr_blocks = "0.0.0.0/0"
+    }
   ]
   egress_with_cidr_blocks = [
     {
@@ -90,11 +98,6 @@ resource "aws_security_group_rule" "rds-egress" {
   security_group_id = module.security-group-rds.security_group_id
 }
 
-
-output "public_subnets" {
-  value = module.vpc.public_subnets
-}
-
 locals {
   instances = {
     instance_1 = {
@@ -109,43 +112,37 @@ locals {
   }
 }
 
-# data "aws_ami" "image" {
-#   most_recent = true
-
-#   filter {
-#     name   = "name"
-#     values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-#   }
-
-#   filter {
-#     name   = "virtualization-type"
-#     values = ["hvm"]
-#   }
-
-#   owners = ["099720109477"]
-# }
-
 data "aws_ami" "image" {
   most_recent = true
-  owners      = ["137112412989"]
 
   filter {
     name   = "name"
-    values = ["al2023-ami-2023.4.20240401.1-kernel-6.1-x86_64"]
-  }
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-  filter {
 
-    name   = "architecture"
-    values = ["x86_64"]
+  owners = ["099720109477"]
+}
+
+resource "tls_private_key" "generated" {
+  algorithm = "RSA"
+}
+
+resource "local_file" "private_key_pem" {
+  content  = tls_private_key.generated.private_key_pem
+  filename = "myawsKey.pem"
+}
+
+resource "aws_key_pair" "generated" {
+  key_name   = "myawsKey"
+  public_key = tls_private_key.generated.public_key_openssh
+
+  lifecycle {
+    ignore_changes = [key_name]
   }
 }
 
@@ -161,6 +158,7 @@ module "ec2_instance" {
   monitoring             = true
   vpc_security_group_ids = [module.security-group.security_group_id]
   subnet_id              = each.value.subnet_id
+  key_name               = aws_key_pair.generated.key_name
 
   tags = {
     Terraform   = "true"
