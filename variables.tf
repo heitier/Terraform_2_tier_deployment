@@ -9,15 +9,13 @@ variable "aws_region" {
 variable "user_data_sh" {
   default = <<-EOF
                #!/bin/bash
-               sudo yum update -y
-  sudo amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
-  sudo yum install -y httpd mariadb-server
-  sudo systemctl start httpd
-  sudo systemctl enable httpd
-  sudo systemctl start mariadb
-  sudo systemctl enable mariadb
-               
-               
+                export DEBIAN_FRONTEND=noninteractive
+
+                apt-get update
+                apt-get upgrade -y
+                apt-get install -y apache2 php php-mysql libapache2-mod-php php-cli php-cgi php-gd
+                systemctl restart apache2
+                              
                EOF
 }
 
