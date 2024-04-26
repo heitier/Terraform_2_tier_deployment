@@ -109,20 +109,44 @@ locals {
   }
 }
 
-data "aws_ami" "ubuntu" {
+# data "aws_ami" "image" {
+#   most_recent = true
+
+#   filter {
+#     name   = "name"
+#     values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+#   }
+
+#   filter {
+#     name   = "virtualization-type"
+#     values = ["hvm"]
+#   }
+
+#   owners = ["099720109477"]
+# }
+
+data "aws_ami" "image" {
   most_recent = true
+  owners      = ["137112412989"]
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["al2023-ami-2023.4.20240401.1-kernel-6.1-x86_64"]
+  }
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
   }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
+  filter {
 
-  owners = ["099720109477"]
+    name   = "architecture"
+    values = ["x86_64"]
+  }
 }
 
 module "ec2_instance" {
@@ -132,7 +156,7 @@ module "ec2_instance" {
 
   name = "EC2-Nginx-${each.key}"
 
-  ami                    = data.aws_ami.ubuntu.id
+  ami                    = data.aws_ami.image.id
   instance_type          = each.value.instance_type
   monitoring             = true
   vpc_security_group_ids = [module.security-group.security_group_id]
