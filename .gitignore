@@ -5,3 +5,4 @@ crash.log
 *.hcl
 terraform.tf
 *.pem
+Terraform_two_tier_proj.code-workspace

@@ -189,8 +189,9 @@ module "rds" {
   monitoring_interval    = "30"
   family                 = "mysql8.0"
   major_engine_version   = "8.0"
+  db_name                = "wordpressdb"
   username               = "admin"
-  password               = "securepassword"
+  password               = "Ma130590"
   port                   = "3306"
   network_type           = "IPV4"
   allocated_storage      = "20"
@@ -200,4 +201,9 @@ module "rds" {
   subnet_ids             = module.vpc.private_subnets
   multi_az               = false
 
+}
+
+output "rds_endpoint" {
+  value = module.rds.db_instance_endpoint
+  
 }
